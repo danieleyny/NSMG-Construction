@@ -48,7 +48,7 @@
         }
         
         .hero-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2531&auto=format&fit=crop');
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('./assets/blueprintplans.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -63,26 +63,20 @@
             transform: scale(1.02);
         }
 
-        /* Mobile Menu Transition */
+        /* Mobile Menu Transition (Updated to rely primarily on 'hidden' class) */
         #mobile-menu {
-            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-            max-height: 0;
-            opacity: 0;
+            transition: none;
+            max-height: none;
+            opacity: 1;
             overflow: hidden;
         }
         #mobile-menu.active {
-            max-height: 500px; /* Increased for language options */
-            opacity: 1;
+            /* Placeholder for potential visual transitions if needed, but display is handled by 'flex'/'hidden' */
         }
 
-        /* Lightbox */
-        #lightbox {
-            transition: opacity 0.3s ease;
-        }
-
-        /* Logo Styling */
+        /* Logo Styling (Reduced size for mobile) */
         .nav-logo {
-            height: 80px;
+            height: 60px;
             width: auto;
             display: flex;
             align-items: center;
@@ -91,6 +85,12 @@
             height: 100%;
             width: auto;
             object-fit: contain;
+        }
+        /* Slightly larger on desktop */
+        @media (min-width: 768px) {
+            .nav-logo {
+                height: 70px;
+            }
         }
         
         /* Flag Button Transition */
@@ -108,8 +108,7 @@
 <body class="text-gray-800 bg-white dark:bg-nsmg-darker dark:text-gray-200 transition-colors duration-300">
 
     <nav class="bg-white dark:bg-[#1b1b1b] shadow-md fixed w-full z-50 transition-all duration-300 border-b border-gray-200 dark:border-gray-800" id="navbar">
-        <div class="container mx-auto px-6 py-2">
-            <div class="flex justify-between items-center">
+        <div class="container mx-auto px-6 py-1"> <div class="flex justify-between items-center">
                 <a href="#" class="flex items-center gap-2 group">
                     <div class="nav-logo">
                         <img src="./assets/NSMG.png" alt="NSMG Logo">
@@ -141,8 +140,7 @@
                 </button>
             </div>
 
-            <div id="mobile-menu" class="md:hidden flex flex-col mt-4 space-y-4 pb-4 border-t border-gray-200 dark:border-gray-700">
-                <a href="#home" class="mobile-link text-gray-800 dark:text-white font-semibold hover:text-nsmg-red pl-2" data-key="nav_home">Home</a>
+            <div id="mobile-menu" class="md:hidden hidden flex-col mt-4 space-y-4 pb-4 border-t border-gray-200 dark:border-gray-700"> <a href="#home" class="mobile-link text-gray-800 dark:text-white font-semibold hover:text-nsmg-red pl-2" data-key="nav_home">Home</a>
                 <a href="#about" class="mobile-link text-gray-800 dark:text-white font-semibold hover:text-nsmg-red pl-2" data-key="nav_about">About Us</a>
                 <a href="#services" class="mobile-link text-gray-800 dark:text-white font-semibold hover:text-nsmg-red pl-2" data-key="nav_services">Services</a>
                 <a href="#gallery" class="mobile-link text-gray-800 dark:text-white font-semibold hover:text-nsmg-red pl-2" data-key="nav_gallery">Gallery</a>
@@ -473,17 +471,23 @@
     </div>
 
     <script>
-        // --- Mobile Menu Toggle ---
+        // --- Mobile Menu Toggle (Updated to use 'hidden' and 'flex') ---
         const mobileBtn = document.getElementById('mobile-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
 
         mobileBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
+            // Toggle the classes to control visibility and layout
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex');
+            mobileMenu.classList.toggle('active'); // Retained for potential future styling if needed
         });
 
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
+                // When clicking a link, close the menu and hide it
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('flex');
                 mobileMenu.classList.remove('active');
             });
         });
