@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NSMG Construction & Renovations</title>
+    <meta name="description" content="High-quality construction and renovation services. Residential and Commercial projects.">
+    
+    <link rel="icon" type="image/png" href="./assets/NSMGicon.png">
+    <link rel="apple-touch-icon" href="./assets/NSMGicon.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Enable class-based dark mode
+            theme: {
+                extend: {
+                    colors: {
+                        nsmg: {
+                            red: '#D32F2F', // Deep red from your logo concept
+                            dark: '#1a1a1a',
+                            darker: '#121212', // Darker shade for dark mode background
+                            gray: '#f4f4f4',
+                            cardDark: '#2d2d2d'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Open Sans', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles */
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2531&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        /* Mobile Menu Transition */
+        #mobile-menu {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #mobile-menu.active {
+            max-height: 500px; /* Increased for language options */
+            opacity: 1;
+        }
+
+        /* Lightbox */
+        #lightbox {
+            transition: opacity 0.3s ease;
+        }
+
+        /* Logo Styling */
+        .nav-logo {
+            height: 80px;
+            width: auto;
+            display: flex;
+            align-items: center;
+        }
+        .nav-logo img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+        }
+        
+        /* Flag Button Transition */
+        .flag-icon {
+            font-size: 1.5rem;
+            line-height: 1;
+            transition: transform 0.2s;
+        }
+        .flag-icon:hover {
+            transform: scale(1.1);
+        }
+
+    </style>
+</head>
+<body class="text-gray-800 bg-white dark:bg-nsmg-darker dark:text-gray-200 transition-colors duration-300">
+
+    <nav class="bg-white dark:bg-[#1b1b1b] shadow-md fixed w-full z-50 transition-all duration-300 border-b border-gray-200 dark:border-gray-800" id="navbar">
+        <div class="container mx-auto px-6 py-2">
+            <div class="flex justify-between items-center">
+                <a href="#" class="flex items-center gap-2 group">
+                    <div class="nav-logo">
+    <img id="nav-logo-img" src="./assets/NSMG.png" alt="NSMG Logo">
+                    </div>
+                </a>
+
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#home" class="text-gray-800 dark:text-white hover:text-nsmg-red font-semibold transition" data-key="nav_home">Home</a>
+                    <a href="#about" class="text-gray-800 dark:text-white hover:text-nsmg-red font-semibold transition" data-key="nav_about">About Us</a>
+                    <a href="#services" class="text-gray-800 dark:text-white hover:text-nsmg-red font-semibold transition" data-key="nav_services">Services</a>
+                    <a href="#gallery" class="text-gray-800 dark:text-white hover:text-nsmg-red font-semibold transition" data-key="nav_gallery">Gallery</a>
+                    
+                    <div class="flex items-center gap-4 ml-4 pl-4 border-l border-gray-300 dark:border-gray-700">
+                        <button onclick="toggleLanguage()" class="flag-icon focus:outline-none" title="Switch Language">
+                            <span id="flag-display">🇲🇽</span>
+                        </button>
+
+                        <button onclick="toggleTheme()" class="text-gray-800 dark:text-white hover:text-yellow-500 dark:hover:text-yellow-400 transition focus:outline-none text-lg" title="Toggle Dark Mode">
+                            <i id="theme-icon" class="fas fa-moon"></i>
+                        </button>
+                    </div>
+
+                    <a href="tel:9292506203" class="bg-nsmg-red text-white px-5 py-2 rounded hover:bg-red-700 transition font-bold shadow-lg" data-key="nav_quote">Get a Quote</a>
+                </div>
+
+                <button id="mobile-btn" class="md:hidden text-gray-800 dark:text-white focus:outline-none flex items-center gap-4">
+                    <span class="text-xl" id="mobile-flag-indicator">🇲🇽</span>
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+
+            <div id="mobile-menu" class="md:hidden flex flex-col mt-4 space-y-4 pb-4 border-t border-gray-200 dark:border-gray-700">
+                <a href="#home" class="mobile-link text-gray-800 dark:text-white font-semibold hover:text-nsmg-red pl-2" data-key="nav_home">Home</a>
+                <a href="#about" class="mobile-link text-gray-800 dark:text-white font-semibold hover:text-nsmg-red pl-2" data-key="nav_about">About Us</a>
+                <a href="#services" class="mobile-link text-gray-800 dark:text-white font-semibold hover:text-nsmg-red pl-2" data-key="nav_services">Services</a>
+                <a href="#gallery" class="mobile-link text-gray-800 dark:text-white font-semibold hover:text-nsmg-red pl-2" data-key="nav_gallery">Gallery</a>
+                
+                <div class="flex items-center gap-6 pl-2 py-2 border-t border-gray-200 dark:border-gray-700 mt-2">
+                    <button onclick="toggleLanguage()" class="flex items-center gap-2 text-gray-800 dark:text-white">
+                        <span id="mobile-flag-btn">🇲🇽</span> <span class="text-sm" data-key="mobile_lang_text">Switch to Spanish</span>
+                    </button>
+                    <button onclick="toggleTheme()" class="flex items-center gap-2 text-gray-800 dark:text-white">
+                        <i id="mobile-theme-icon" class="fas fa-moon"></i>
+    <span id="mobile-theme-text" class="text-sm" data-key="mobile_theme_text">Dark Mode</span>
+                    </button>
+                </div>
+
+                <a href="tel:9292506203" class="mobile-link text-nsmg-red font-bold pl-2" data-key="nav_quote">Get a Quote</a>
+            </div>
+        </div>
+    </nav>
+
+    <header id="home" class="hero-bg h-screen flex items-center justify-center relative">
+        <div class="text-center text-white px-4 max-w-4xl mx-auto animate-fade-in-up">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-heading font-extrabold mb-6 leading-tight" data-key="hero_title">Building Your Vision With Precision</h1>
+            <p class="text-lg md:text-2xl mb-10 text-gray-200 font-light max-w-2xl mx-auto" data-key="hero_subtitle">From concept to creation, NSMG delivers high-end renovations and structural excellence.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#gallery" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded font-bold hover:bg-white hover:text-black transition duration-300" data-key="hero_btn_view">View Our Work</a>
+                <a href="#contact" class="bg-nsmg-red border-2 border-nsmg-red text-white px-8 py-3 rounded font-bold hover:bg-red-700 hover:border-red-700 transition duration-300 shadow-xl" data-key="hero_btn_start">Start Project</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="bg-nsmg-dark dark:bg-black py-12 text-white relative z-10 -mt-2 border-t border-gray-800">
+        <div class="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <div class="text-4xl font-heading font-bold text-nsmg-red mb-2">15+</div>
+                <div class="text-gray-400 uppercase text-sm tracking-wider" data-key="stats_years">Years Experience</div>
+            </div>
+            <div>
+                <div class="text-4xl font-heading font-bold text-nsmg-red mb-2">200+</div>
+                <div class="text-gray-400 uppercase text-sm tracking-wider" data-key="stats_projects">Projects Done</div>
+            </div>
+            <div>
+                <div class="text-4xl font-heading font-bold text-nsmg-red mb-2">100%</div>
+                <div class="text-gray-400 uppercase text-sm tracking-wider" data-key="stats_satisfaction">Satisfaction</div>
+            </div>
+            <div>
+                <div class="text-4xl font-heading font-bold text-nsmg-red mb-2">A+</div>
+                <div class="text-gray-400 uppercase text-sm tracking-wider" data-key="stats_safety">Safety Rating</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-20 bg-white dark:bg-nsmg-darker transition-colors duration-300">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2">
+                    <div class="relative">
+                        <img src="./assets/buildhoise.png" alt="Worker reading blueprints" class="rounded-lg shadow-2xl w-full object-cover h-[500px]">
+                        <div class="absolute -bottom-6 -right-6 bg-nsmg-red p-8 rounded-lg hidden lg:block">
+                            <p class="text-white font-heading font-bold text-2xl" data-key="about_badge">Quality<br>You Can<br>Trust.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <h3 class="text-nsmg-red font-bold uppercase tracking-widest mb-2" data-key="about_kicker">Who We Are</h3>
+                    <h2 class="text-4xl font-heading font-bold text-gray-900 dark:text-white mb-6" data-key="about_title">We Don't Just Build,<br>We Create Legacies.</h2>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed" data-key="about_p1">
+                        At NSMG Construction & Renovations, we pride ourselves on merging traditional craftsmanship with modern construction techniques. Whether it's a complete home renovation, a commercial build-out, or intricate custom carpentry, our team approaches every project with the same level of dedication.
+                    </p>
+                    <p class="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed" data-key="about_p2">
+                        We understand that construction is more than just materials; it's about bringing your vision to life while adhering to strict timelines and budgets.
+                    </p>
+                    
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-gray-700 dark:text-gray-200 font-semibold"><i class="fas fa-check-circle text-nsmg-red"></i> <span data-key="about_list_1">No Subcontractors</span></li>
+                        <li class="flex items-center gap-3 text-gray-700 dark:text-gray-200 font-semibold"><i class="fas fa-check-circle text-nsmg-red"></i> <span data-key="about_list_2">Transparent Pricing & Quotes</span></li>
+                        <li class="flex items-center gap-3 text-gray-700 dark:text-gray-200 font-semibold"><i class="fas fa-check-circle text-nsmg-red"></i> <span data-key="about_list_3">High Quality Work</span></li>
+                    </ul>
+
+                    <a href="tel:9292506203" class="text-nsmg-red font-bold hover:text-black dark:hover:text-white transition border-b-2 border-nsmg-red pb-1" data-key="about_cta">Get a Consultation &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-20 bg-nsmg-gray dark:bg-nsmg-dark transition-colors duration-300">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h3 class="text-nsmg-red font-bold uppercase tracking-widest mb-2" data-key="services_kicker">Our Expertise</h3>
+                <h2 class="text-4xl font-heading font-bold text-gray-900 dark:text-white" data-key="services_title">Comprehensive Construction Services</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white dark:bg-nsmg-cardDark p-8 rounded-lg shadow-lg hover:shadow-xl transition duration-300 group">
+                    <div class="w-16 h-16 bg-red-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-6 group-hover:bg-nsmg-red transition">
+                        <i class="fas fa-home text-2xl text-nsmg-red group-hover:text-white transition"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 font-heading dark:text-white" data-key="service_1_title">Residential Renovation</h3>
+                    <p class="text-gray-600 dark:text-gray-400" data-key="service_1_desc">Full home remodels, basements, and additions designed to increase value and comfort.</p>
+                </div>
+
+                <div class="bg-white dark:bg-nsmg-cardDark p-8 rounded-lg shadow-lg hover:shadow-xl transition duration-300 group">
+                    <div class="w-16 h-16 bg-red-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-6 group-hover:bg-nsmg-red transition">
+                        <i class="fas fa-hammer text-2xl text-nsmg-red group-hover:text-white transition"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 font-heading dark:text-white" data-key="service_2_title">Kitchen & Bath</h3>
+                    <p class="text-gray-600 dark:text-gray-400" data-key="service_2_desc">Modernize your most used spaces with custom cabinetry, tiling, and luxury fixtures.</p>
+                </div>
+
+                <div class="bg-white dark:bg-nsmg-cardDark p-8 rounded-lg shadow-lg hover:shadow-xl transition duration-300 group">
+                    <div class="w-16 h-16 bg-red-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-6 group-hover:bg-nsmg-red transition">
+                        <i class="fas fa-building text-2xl text-nsmg-red group-hover:text-white transition"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 font-heading dark:text-white" data-key="service_3_title">Commercial Projects</h3>
+                    <p class="text-gray-600 dark:text-gray-400" data-key="service_3_desc">Office build-outs, retail spaces, and structural repairs delivered on time and on budget.</p>
+                </div>
+                
+                <div class="bg-white dark:bg-nsmg-cardDark p-8 rounded-lg shadow-lg hover:shadow-xl transition duration-300 group">
+                    <div class="w-16 h-16 bg-red-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-6 group-hover:bg-nsmg-red transition">
+                        <i class="fas fa-paint-roller text-2xl text-nsmg-red group-hover:text-white transition"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 font-heading dark:text-white" data-key="service_4_title">Interior Finishing</h3>
+                    <p class="text-gray-600 dark:text-gray-400" data-key="service_4_desc">Drywall, painting, flooring, and trim work that adds the perfect final touch.</p>
+                </div>
+
+                <div class="bg-white dark:bg-nsmg-cardDark p-8 rounded-lg shadow-lg hover:shadow-xl transition duration-300 group">
+                    <div class="w-16 h-16 bg-red-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-6 group-hover:bg-nsmg-red transition">
+                        <i class="fas fa-hard-hat text-2xl text-nsmg-red group-hover:text-white transition"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 font-heading dark:text-white" data-key="service_5_title">Project Management</h3>
+                    <p class="text-gray-600 dark:text-gray-400" data-key="service_5_desc">We handle permits, subcontractors, and inspections so you don't have to.</p>
+                </div>
+
+                <div class="bg-white dark:bg-nsmg-cardDark p-8 rounded-lg shadow-lg hover:shadow-xl transition duration-300 group">
+                    <div class="w-16 h-16 bg-red-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-6 group-hover:bg-nsmg-red transition">
+                        <i class="fas fa-ruler-combined text-2xl text-nsmg-red group-hover:text-white transition"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 font-heading dark:text-white" data-key="service_6_title">Custom Carpentry</h3>
+                    <p class="text-gray-600 dark:text-gray-400" data-key="service_6_desc">Bespoke shelving, decks, and structural framework crafted by master carpenters.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="py-20 bg-white dark:bg-nsmg-darker transition-colors duration-300">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h3 class="text-nsmg-red font-bold uppercase tracking-widest mb-2" data-key="gallery_kicker">Our Portfolio</h3>
+                <h2 class="text-4xl font-heading font-bold text-gray-900 dark:text-white" data-key="gallery_title">Recent Projects</h2>
+                <p class="text-gray-600 dark:text-gray-300 mt-4 max-w-2xl mx-auto" data-key="gallery_subtitle">Browse through a selection of our recent renovation and construction work.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="relative overflow-hidden rounded-lg shadow-lg cursor-pointer group h-72" onclick="openLightbox(this)">
+                    <img src="./assets/renokitchen.png" alt="Modern Kitchen Renovation" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                        <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition duration-300">
+                            <h4 class="text-white font-bold text-xl mb-1" data-key="gallery_1_title">Modern Kitchen</h4>
+                            <p class="text-gray-200 text-sm" data-key="gallery_1_desc">Full Remodel</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative overflow-hidden rounded-lg shadow-lg cursor-pointer group h-72" onclick="openLightbox(this)">
+                    <img src="./assets/storefront.png" alt="Exterior Decking" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                        <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition duration-300">
+                            <h4 class="text-white font-bold text-xl mb-1" data-key="gallery_2_title">Store Front</h4>
+                            <p class="text-gray-200 text-sm" data-key="gallery_2_desc">Custom Carpentry</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative overflow-hidden rounded-lg shadow-lg cursor-pointer group h-72" onclick="openLightbox(this)">
+                    <img src="./assets/gutreno.png" alt="Luxury Bathroom" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                        <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition duration-300">
+                            <h4 class="text-white font-bold text-xl mb-1" data-key="gallery_3_title">Full Apartment</h4>
+                            <p class="text-gray-200 text-sm" data-key="gallery_3_desc">Gut Renovation</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative overflow-hidden rounded-lg shadow-lg cursor-pointer group h-72" onclick="openLightbox(this)">
+                    <img src="./assets/bathroomreno.png" alt="Commercial Framing" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                        <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition duration-300">
+                            <h4 class="text-white font-bold text-xl mb-1" data-key="gallery_4_title">Bathroom Renovation</h4>
+                            <p class="text-gray-200 text-sm" data-key="gallery_4_desc">Gut Renovation</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative overflow-hidden rounded-lg shadow-lg cursor-pointer group h-72" onclick="openLightbox(this)">
+                    <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=1000&auto=format&fit=crop" alt="Living Room" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                        <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition duration-300">
+                            <h4 class="text-white font-bold text-xl mb-1" data-key="gallery_5_title">Open Concept Living</h4>
+                            <p class="text-gray-200 text-sm" data-key="gallery_5_desc">Gut Renovation</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative overflow-hidden rounded-lg shadow-lg cursor-pointer group h-72" onclick="openLightbox(this)">
+                    <img src="https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=1000&auto=format&fit=crop" alt="Staircase" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                        <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition duration-300">
+                            <h4 class="text-white font-bold text-xl mb-1" data-key="gallery_6_title">Custom Vanity</h4>
+                            <p class="text-gray-200 text-sm" data-key="gallery_6_desc">Custom Carpentry</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-20 bg-nsmg-dark text-white">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row gap-12">
+                <div class="md:w-1/3">
+                    <h3 class="text-nsmg-red font-bold uppercase tracking-widest mb-2" data-key="contact_kicker">Get In Touch</h3>
+                    <h2 class="text-3xl font-heading font-bold mb-6" data-key="contact_title">Let's Discuss Your Project</h2>
+                    <p class="text-gray-400 mb-8" data-key="contact_subtitle">Ready to start building? Contact us for a free estimate. We look forward to working with you.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-gray-800 p-3 rounded">
+                                <i class="fas fa-phone text-nsmg-red"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold" data-key="contact_phone">Phone</h4>
+                                <p class="text-gray-400">(929) 250-6203</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="bg-gray-800 p-3 rounded">
+                                <i class="fas fa-envelope text-nsmg-red"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold" data-key="contact_email">Email</h4>
+                                <p class="text-gray-400">info@nsmgconstruction.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="bg-gray-800 p-3 rounded">
+                                <i class="fas fa-map-marker-alt text-nsmg-red"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold" data-key="contact_area">Service Area</h4>
+                                <p class="text-gray-400" data-key="contact_area_desc">Available for projects in the greater metropolitan area.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:w-2/3 bg-white dark:bg-nsmg-cardDark text-gray-800 dark:text-white p-8 rounded-lg shadow-lg transition-colors duration-300">
+                    <form id="contactForm" class="space-y-6">
+                        
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_subject" value="New Quote Request - NSMG Website">
+                        <input type="hidden" name="_template" value="table">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold mb-2" data-key="form_fname">First Name</label>
+                                <input type="text" name="firstName" required class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white p-3 rounded focus:outline-none focus:border-nsmg-red">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-2" data-key="form_lname">Last Name</label>
+                                <input type="text" name="lastName" required class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white p-3 rounded focus:outline-none focus:border-nsmg-red">
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold mb-2" data-key="form_phone">Phone Number</label>
+                                <input type="tel" name="phone" required class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white p-3 rounded focus:outline-none focus:border-nsmg-red">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-2" data-key="form_service">Service Type</label>
+                                <select name="serviceType" class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white p-3 rounded focus:outline-none focus:border-nsmg-red">
+                                    <option data-key="opt_general">General Renovation</option>
+                                    <option data-key="opt_kitchen">Kitchen/Bath</option>
+                                    <option data-key="opt_new">New Construction</option>
+                                    <option data-key="opt_commercial">Commercial</option>
+                                    <option data-key="opt_other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold mb-2" data-key="form_details">Project Details</label>
+                            <textarea name="message" rows="4" required class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white p-3 rounded focus:outline-none focus:border-nsmg-red"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-nsmg-red text-white font-bold py-3 rounded hover:bg-red-700 transition duration-300 shadow-lg uppercase tracking-wide" data-key="form_btn">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black text-white py-8 border-t border-gray-800">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="font-bold text-xl tracking-tight">NSMG Construction</span>
+                <p class="text-gray-500 text-sm">&copy; 2023 NSMG. All Rights Reserved.</p>
+            </div>
+            <div class="flex space-x-6">
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="lightbox" class="fixed inset-0 z-[60] bg-black bg-opacity-95 hidden flex items-center justify-center p-4 opacity-0 pointer-events-none">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white text-4xl hover:text-nsmg-red transition focus:outline-none">&times;</button>
+        <div class="max-w-5xl max-h-screen w-full text-center">
+            <img id="lightbox-img" src="" alt="Full View" class="max-w-full max-h-[85vh] mx-auto rounded shadow-2xl border-2 border-gray-800">
+            <p id="lightbox-caption" class="text-white mt-4 text-xl font-heading"></p>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-5 right-5 bg-green-600 text-white px-6 py-3 rounded shadow-lg transform translate-y-20 transition-transform duration-300 z-50 flex items-center">
+        <i class="fas fa-check-circle mr-2"></i> <span data-key="toast_success">Message Sent Successfully!</span>
+    </div>
+
+    <script>
+        // --- Mobile Menu Toggle ---
+        const mobileBtn = document.getElementById('mobile-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // --- Navbar Scroll Effect ---
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+            } else {
+                navbar.classList.remove('shadow-lg');
+            }
+        });
+
+        // --- Lightbox Logic ---
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+
+        function openLightbox(element) {
+            const img = element.querySelector('img');
+            const title = element.querySelector('h4').innerText;
+            
+            lightboxImg.src = img.src;
+            lightboxCaption.innerText = title;
+            
+            lightbox.classList.remove('hidden');
+            setTimeout(() => {
+                lightbox.classList.remove('opacity-0', 'pointer-events-none');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+            }, 300);
+            document.body.style.overflow = 'auto';
+        }
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+        
+        // --- Notification Toast ---
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-20');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20');
+            }, 3000);
+        }
+
+        // --- Contact Form (Real Email Sending via FormSubmit) ---
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            
+            // Adjust loading text based on language
+            const loadingText = currentLang === 'es' ? 'Enviando...' : 'Sending...';
+            
+            btn.innerText = loadingText;
+            btn.disabled = true;
+
+            // Collect Form Data
+            const formData = new FormData(this);
+
+            // Send to FormSubmit using AJAX
+            fetch("https://formsubmit.co/ajax/eynymgmt@gmail.com", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Success!
+                btn.innerText = originalText;
+                btn.disabled = false;
+                e.target.reset(); // Clear the form
+                showToast(); // Show the success popup
+            })
+            .catch(error => {
+                // Error handling
+                console.log(error);
+                btn.innerText = "Error";
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                }, 3000);
+                alert(currentLang === 'es' ? "Algo salió mal. Por favor, llámenos directamente." : "Something went wrong. Please call us directly.");
+            });
+        });
+
+        // --- Dark Mode Logic ---
+        // Check local storage or system preference on load
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            updateThemeIcon(true);
+        } else {
+            document.documentElement.classList.remove('dark');
+            updateThemeIcon(false);
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                updateThemeIcon(false);
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                updateThemeIcon(true);
+            }
+        }
+
+        function updateThemeIcon(isDark) {
+    const icon = document.getElementById('theme-icon');
+    const mobileIcon = document.getElementById('mobile-theme-icon');
+    const desktopText = document.getElementById('desktop-theme-text');
+    const mobileText = document.getElementById('mobile-theme-text');
+    const logoImg = document.getElementById('nav-logo-img');
+
+    const iconClass = isDark ? 'fa-sun' : 'fa-moon';
+
+    if (icon) icon.className = `fas ${iconClass}`;
+    if (mobileIcon) mobileIcon.className = `fas ${iconClass}`;
+
+    let labelEn = isDark ? 'Light Mode' : 'Dark Mode';
+    let labelEs = isDark ? 'Modo Claro' : 'Modo Oscuro';
+    const label = (typeof currentLang !== 'undefined' && currentLang === 'es') ? labelEs : labelEn;
+
+    if (desktopText) desktopText.textContent = label;
+    if (mobileText) mobileText.textContent = label;
+
+    if (logoImg) logoImg.src = isDark ? './assets/NSMGLight.png' : './assets/NSMG.png';
+}
+
+        // --- Translation Logic ---
+        const translations = {
+            en: {
+                nav_home: "Home",
+                nav_about: "About Us",
+                nav_services: "Services",
+                nav_gallery: "Gallery",
+                nav_quote: "Get a Quote",
+                mobile_lang_text: "Switch to Spanish",
+                mobile_theme_text: "Dark Mode",
+                hero_badge: "Licensed & Insured",
+                hero_title: "Building Your Vision With Precision",
+                hero_subtitle: "From concept to creation, NSMG delivers high-end renovations and structural excellence.",
+                hero_btn_view: "View Our Work",
+                hero_btn_start: "Start Project",
+                stats_years: "Years Experience",
+                stats_projects: "Projects Done",
+                stats_satisfaction: "Satisfaction",
+                stats_safety: "Safety Rating",
+                about_badge: "Quality<br>You Can<br>Trust.",
+                about_kicker: "Who We Are",
+                about_title: "We Don't Just Build,<br>We Create Legacies.",
+                about_p1: "At NSMG Construction & Renovations, we pride ourselves on merging traditional craftsmanship with modern construction techniques. Whether it's a complete home renovation, a commercial build-out, or intricate custom carpentry, our team approaches every project with the same level of dedication.",
+                about_p2: "We understand that construction is more than just materials; it's about bringing your vision to life while adhering to strict timelines and budgets.",
+                about_list_1: "No Subcontractors",
+                about_list_2: "Transparent Pricing & Quotes",
+                about_list_3: "High Quality Work",
+                about_cta: "Get a Consultation &rarr;",
+                services_kicker: "Our Expertise",
+                services_title: "Comprehensive Construction Services",
+                service_1_title: "Residential Renovation",
+                service_1_desc: "Full home remodels, basements, and additions designed to increase value and comfort.",
+                service_2_title: "Kitchen & Bath",
+                service_2_desc: "Modernize your most used spaces with custom cabinetry, tiling, and luxury fixtures.",
+                service_3_title: "Commercial Projects",
+                service_3_desc: "Office build-outs, retail spaces, and structural repairs delivered on time and on budget.",
+                service_4_title: "Interior Finishing",
+                service_4_desc: "Drywall, painting, flooring, and trim work that adds the perfect final touch.",
+                service_5_title: "Project Management",
+                service_5_desc: "We handle permits, subcontractors, and inspections so you don't have to.",
+                service_6_title: "Custom Carpentry",
+                service_6_desc: "Bespoke shelving, decks, and structural framework crafted by master carpenters.",
+                gallery_kicker: "Our Portfolio",
+                gallery_title: "Recent Projects",
+                gallery_subtitle: "Browse through a selection of our recent renovation and construction work.",
+                gallery_1_title: "Modern Kitchen",
+                gallery_1_desc: "Full Remodel",
+                gallery_2_title: "Store Front",
+                gallery_2_desc: "Custom Carpentry",
+                gallery_3_title: "Full Apartment",
+                gallery_3_desc: "Gut Renovation",
+                gallery_4_title: "Bathroom Renovation",
+                gallery_4_desc: "Gut Renovation",
+                gallery_5_title: "Open Concept Living",
+                gallery_5_desc: "Gut Renovation",
+                gallery_6_title: "Custom Vanity",
+                gallery_6_desc: "Custom Carpentry",
+                contact_kicker: "Get In Touch",
+                contact_title: "Let's Discuss Your Project",
+                contact_subtitle: "Ready to start building? Contact us for a free estimate. We look forward to working with you.",
+                contact_phone: "Phone",
+                contact_email: "Email",
+                contact_area: "Service Area",
+                contact_area_desc: "Available for projects in the greater metropolitan area.",
+                form_fname: "First Name",
+                form_lname: "Last Name",
+                form_phone: "Phone Number",
+                form_service: "Service Type",
+                opt_general: "General Renovation",
+                opt_kitchen: "Kitchen/Bath",
+                opt_new: "New Construction",
+                opt_commercial: "Commercial",
+                opt_other: "Other",
+                form_details: "Project Details",
+                form_btn: "Send Message",
+                toast_success: "Message Sent Successfully!"
+            },
+            es: {
+                nav_home: "Inicio",
+                nav_about: "Nosotros",
+                nav_services: "Servicios",
+                nav_gallery: "Galería",
+                nav_quote: "Obtener Presupuesto",
+                mobile_lang_text: "Cambiar a Inglés",
+                mobile_theme_text: "Modo Oscuro",
+                hero_badge: "Licenciado y Asegurado",
+                hero_title: "Construyendo su Visión con Precisión",
+                hero_subtitle: "Desde el concepto hasta la creación, NSMG ofrece renovaciones de alta gama y excelencia estructural.",
+                hero_btn_view: "Ver Nuestro Trabajo",
+                hero_btn_start: "Comenzar Proyecto",
+                stats_years: "Años de Experiencia",
+                stats_projects: "Proyectos Realizados",
+                stats_satisfaction: "Satisfacción",
+                stats_safety: "Calificación de Seguridad",
+                about_badge: "Calidad<br>Confiable.",
+                about_kicker: "Quiénes Somos",
+                about_title: "No Solo Construimos,<br>Creamos Legados.",
+                about_p1: "En NSMG Construction & Renovations, nos enorgullecemos de fusionar la artesanía tradicional con técnicas modernas de construcción. Ya sea una renovación completa del hogar, una construcción comercial o carpintería personalizada intrincada, nuestro equipo aborda cada proyecto con el mismo nivel de dedicación.",
+                about_p2: "Entendemos que la construcción es más que materiales; se trata de dar vida a su visión cumpliendo estrictamente con los plazos y presupuestos.",
+                about_list_1: "Sin Subcontratistas",
+                about_list_2: "Precios y Presupuestos Transparentes",
+                about_list_3: "Trabajo de Alta Calidad",
+                about_cta: "Obtener Consulta &rarr;",
+                services_kicker: "Nuestra Experiencia",
+                services_title: "Servicios Integrales de Construcción",
+                service_1_title: "Renovación Residencial",
+                service_1_desc: "Remodelaciones completas, sótanos y adiciones diseñadas para aumentar el valor y la comodidad.",
+                service_2_title: "Cocina y Baño",
+                service_2_desc: "Modernice sus espacios más usados con gabinetes personalizados, azulejos y accesorios de lujo.",
+                service_3_title: "Proyectos Comerciales",
+                service_3_desc: "Construcción de oficinas, espacios comerciales y reparaciones estructurales entregadas a tiempo y dentro del presupuesto.",
+                service_4_title: "Acabados Interiores",
+                service_4_desc: "Paneles de yeso, pintura, pisos y molduras que añaden el toque final perfecto.",
+                service_5_title: "Gestión de Proyectos",
+                service_5_desc: "Nos encargamos de permisos, subcontratistas e inspecciones para que usted no tenga que hacerlo.",
+                service_6_title: "Carpintería Personalizada",
+                service_6_desc: "Estanterías a medida, terrazas y marcos estructurales elaborados por maestros carpinteros.",
+                gallery_kicker: "Nuestro Portafolio",
+                gallery_title: "Proyectos Recientes",
+                gallery_subtitle: "Explore una selección de nuestros trabajos recientes de renovación y construcción.",
+                gallery_1_title: "Cocina Moderna",
+                gallery_1_desc: "Remodelación Completa",
+                gallery_2_title: "Fachada Comercial",
+                gallery_2_desc: "Carpintería Personalizada",
+                gallery_3_title: "Apartamento Completo",
+                gallery_3_desc: "Renovación Integral",
+                gallery_4_title: "Renovación de Baño",
+                gallery_4_desc: "Renovación Integral",
+                gallery_5_title: "Sala de Concepto Abierto",
+                gallery_5_desc: "Renovación Integral",
+                gallery_6_title: "Tocador Personalizado",
+                gallery_6_desc: "Carpintería Personalizada",
+                contact_kicker: "Contáctenos",
+                contact_title: "Hablemos de su Proyecto",
+                contact_subtitle: "Listo para empezar a construir? Contáctenos para un presupuesto gratuito. Esperamos trabajar con usted.",
+                contact_phone: "Teléfono",
+                contact_email: "Correo",
+                contact_area: "Área de Servicio",
+                contact_area_desc: "Disponible para proyectos en el área metropolitana mayor.",
+                form_fname: "Nombre",
+                form_lname: "Apellido",
+                form_phone: "Número de Teléfono",
+                form_service: "Tipo de Servicio",
+                opt_general: "Renovación General",
+                opt_kitchen: "Cocina/Baño",
+                opt_new: "Nueva Construcción",
+                opt_commercial: "Comercial",
+                opt_other: "Otro",
+                form_details: "Detalles del Proyecto",
+                form_btn: "Enviar Mensaje",
+                toast_success: "¡Mensaje Enviado Exitosamente!"
+            }
+        };
+
+        let currentLang = 'en';
+
+        function toggleLanguage() {
+    
+            const displayFlag = document.getElementById('flag-display');
+            const mobileFlag = document.getElementById('mobile-flag-indicator');
+            const mobileBtnFlag = document.getElementById('mobile-flag-btn');
+            
+            currentLang = currentLang === 'en' ? 'es' : 'en';
+            
+            // Update Flag Icon Logic:
+            // If current is English, button shows Mexico flag (to switch to Spanish).
+            // If current is Spanish, button shows US flag (to switch to English).
+            const flagIcon = currentLang === 'en' ? '🇲🇽' : '🇺🇸';
+            
+            displayFlag.textContent = flagIcon; 
+            mobileFlag.textContent = flagIcon;
+            mobileBtnFlag.textContent = flagIcon;
+
+            // Update Text Content
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (translations[currentLang][key]) {
+                    // Preserve HTML tags if necessary (like <br> in about_badge)
+                    if (el.innerHTML.includes('<') && !el.tagName.match(/OPTION|TEXTAREA|INPUT/)) {
+                        el.innerHTML = translations[currentLang][key];
+                        updateThemeIcon(document.documentElement.classList.contains('dark'));
+} else {
+                        el.innerText = translations[currentLang][key];
+                    }
+                }
+            });
+
+            // Update placeholders (optional for this form, but kept logic clean)
+            const detailsArea = document.querySelector('textarea');
+            if(detailsArea) {
+                // For this form, labels handle translation, so no action needed here.
+            }
+        }
+    </script>
+</body>
+</html>
